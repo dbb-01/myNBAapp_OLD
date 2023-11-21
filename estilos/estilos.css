@@ -27,7 +27,7 @@
     outline: 5px solid;
     padding: 7px;
     margin-top: 5px;
-    outline-color: grey;
+    outline-color: rgb(78, 78, 78);
 }
 
 .card:hover{
@@ -38,9 +38,51 @@
 }
 
 body {
-    background-color: black;
+    background-color: rgb(49, 49, 49);
 }
 
 .mt-4{
     color: white;
+}
+
+
+
+
+
+.clasificacion{
+    font-size: larger;
+    text-align: center;
+
+}
+th {
+    text-align: center;
+}
+img {
+    padding-bottom: 5%;
+}
+
+
+
+.clas tbody tr.PO *{
+    background-color: rgb(177, 224, 170);
+
+}
+.clas tbody tr.PI *{
+    background-color: rgb(223, 208, 143);
+
+}
+.clas tbody tr.OUT *{
+    background-color: rgb(238, 159, 145);
+
+}
+
+tbody tr.lider *{
+    background-color: rgb(177, 224, 170);
+    font-size: large;
+    font-weight: bold; 
+    
+}
+tbody tr{
+   text-align: center;
+    
 }
