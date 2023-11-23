@@ -138,21 +138,35 @@ def max_asistentes():
 @app.route('/obtener_estadisticas_equipos', methods=['GET'])
 def obtener_estadisticas_equipos():
     
-    standings = leaguedashteamstats.LeagueDashTeamStats()
-    data_frame = standings.get_data_frames()[0]
-    equipos= data_frame[0]
+    standings = leaguedashteamstats.LeagueDashTeamStats(per_mode_detailed='PerGame')
+    equipos = standings.get_data_frames()[0]
 
     equipos_lista = []
 
     for index, equipo in equipos.iterrows():
-        nombre_ciudad = equipo['TeamCity']
-        nombre_equipo = equipo['TeamName']
-        record = f"{equipo['WINS']}-{equipo['LOSSES']}"
+        nombre_equipo = equipo['TEAM_NAME']
+        record = f"{equipo['W']}-{equipo['L']}"
+        ppp = equipo['PTS']
+        rpp = equipo['REB']
+        app = equipo['AST']
+        fg = equipo['FG_PCT']
+        fg3 = equipo['FG3_PCT']
+        stl = equipo['STL']
+        blk = equipo['BLK']
+        w_pct = equipo['W_PCT']
 
         equipo_dict = {
-            'nombre_ciudad': nombre_ciudad,
             'nombre_equipo': nombre_equipo,
-            'record': record
+            'record': record,
+            'ppp' : ppp,
+            'rpp' : rpp,
+            'app' : app,
+            'fg' : fg,
+            'fg3' : fg3,
+            'stl' : stl,
+            'blk' : blk,
+            'w_pct' : w_pct
+
         }
 
         equipos_lista.append(equipo_dict)

@@ -2,7 +2,7 @@
 
 // Solicitud AJAX para obtener estadísticas de equipos
 document.addEventListener('DOMContentLoaded', function () {
-    const resultadoDiv = document.getElementById('equipos');
+    const resultadoDiv = document.getElementById('teams_body');
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://127.0.0.1:5000/obtener_estadisticas_equipos', true);
@@ -16,30 +16,30 @@ document.addEventListener('DOMContentLoaded', function () {
             resultadoDiv.innerHTML = '';
 
             data.forEach((equipo, index) => {
-                const nombreEquipo = equipo.TEAM_NAME;
-                const victorias = equipo.W;
-                const derrotas = equipo.L;
-                const porcentajeVictorias = equipo.W_PCT;
-                const rebotes = equipo.REB;
-                const asistencias = equipo.AST;
-                const perdidas = equipo.TOV;
-                const puntos = equipo.PTS;
-
+                
                 const filaEquipo = document.createElement('tr');
                 filaEquipo.innerHTML = `
-                    <th scope="row">${index + 1}</th>
-                    <td>${nombreEquipo}</td>
-                    <td>${victorias}</td>
-                    <td>${derrotas}</td>
-                    <td>${porcentajeVictorias}</td>
-                    <td>${rebotes}</td>
-                    <td>${asistencias}</td>
-                    <td>${perdidas}</td>
-                    <td>${puntos}</td>
+                    <td>${equipo.nombre_equipo}</td>
+                    <td>${equipo.record}</td>
+                    <td>${equipo.w_pct}</td>
+                    <td>${equipo.ppp}</td>
+                    <td>${equipo.rpp}</td>
+                    <td>${equipo.app}</td>
+                    <td>${equipo.fg}</td>
+                    <td>${equipo.fg3}</td>
+                    <td>${equipo.stl}</td>
+                    <td>${equipo.blk}</td>
                 `;
 
                 resultadoDiv.appendChild(filaEquipo);
             });
+            // Inicializa DataTables en la tabla
+            $(document).ready(function() {
+                $('#teams').DataTable({
+                    "order": [[2, 'desc']]
+                });
+            });
+            
         } else {
             console.error('Error al cargar el JSON.');
         }
