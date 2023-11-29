@@ -1,8 +1,13 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from nba_api.stats.endpoints import leaguestandings
 from nba_api.stats.endpoints import leagueleaders
 from nba_api.stats.endpoints import leaguedashteamstats
+from nba_api.stats.endpoints import commonteamroster
+from nba_api.stats.static import teams
+ 
+
+
 
 from pandas import DataFrame
 import json
@@ -135,6 +140,35 @@ def max_asistentes():
 
 
 #stats_equipos
+@app.route('/player/<team>', methods=['GET'])
+def player(team):
+    
+    players = commonteamroster.CommonTeamRoster(team_id=getTeam(str(team)), season ='2023-24')
+    playersdf = players.get_data_frames()[0]
+
+
+    # Filtrar dataframe 
+    data_frame_filtered = playersdf[[
+        'PLAYER',
+        'POSITION',
+        'AGE',
+        'HEIGHT',
+        'WEIGHT',
+        'POSITION',
+        'EXP',
+        'TeamID'
+        ]]
+
+
+    # Convertir datos a diccionario
+    data_frame_filtered_dict = data_frame_filtered.to_dict(orient='records')
+
+    # Devolver el resultado
+    return jsonify(data_frame_filtered_dict)
+
+    
+
+#stats_equipos
 @app.route('/obtener_estadisticas_equipos', methods=['GET'])
 def obtener_estadisticas_equipos():
     
@@ -173,6 +207,19 @@ def obtener_estadisticas_equipos():
 
     return jsonify(equipos_lista)
 
+#ID TEAMS
+@app.route('/getTeamIdbyName/<name>', methods=['GET'])
+def getTeamIdbyName(name):
+    ciudad = teams.find_teams_by_city(str(name))
+    df = ciudad[0]
+    team_id = df['id']
+    return jsonify({'team_id': team_id})
+
+def getTeam(name):
+    ciudad = teams.find_teams_by_city(str(name))
+    df = ciudad[0]
+    team_id = df['id']
+    return jsonify({'team_id': team_id})
 #FINAL
 if __name__ == '__main__':
     app.run(debug=True)
