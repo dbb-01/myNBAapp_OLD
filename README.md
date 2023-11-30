@@ -1,2 +1,2 @@
-# proxecto_NBA_daw
-Nuevo repositorio en myNBAapp
+# 
+(https://github.com/dbb-01/myNBAapp)
